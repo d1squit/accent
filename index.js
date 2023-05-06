@@ -18,6 +18,7 @@ app.use((req, res, next) => {
 const db = new sqlite3.Database('db.sqlite');
 
 app.get('/:word', (req, res) => {
+	console.log(word);
 	db.serialize(() => {
 		db.all(`SELECT words_accent FROM words WHERE words_no_accent LIKE '${req.params.word}'`, (err, rows) => {
 			if (rows[0]) res.send(rows[0].words_accent);
@@ -26,6 +27,6 @@ app.get('/:word', (req, res) => {
 	});
 });
 
-app.listen(port, () => {
+app.listen(process.env.port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);
 });
